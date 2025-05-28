@@ -1,0 +1,19 @@
+Task 1: 
+
+Navigate to the Step Function page.,
+Click the state machine such as JamStateMachine-***, and click Edit button.,
+Delete the current Pass state, named DeleteThisState.,
+Update the pass state to the AWS Lambda: Invoke action.,
+En Function name pon la que en el nombre tenga "Checknamefunction",
+Guarda la ejecución dandole al "Save" de arriba ala derecha,
+Execute the state machine. Input should be like {"name": "john tanaka evil"},
+
+Task 2:
+
+Navigate to the Step Function page.,
+Click the state machine such as JamStateMachine-**, and click Edit button.,
+Put Choice flow after Lambda: Invoke action.,
+Choice Rules should be "If $.isValid == true, return - Success for Succeed state, otherwise return Fail state".,
+You can execute the state machine, Input should be like {"name": "john tanaka evil"}.,
+
+Tiene que quedar IGUAL que ne la imagen del challenge (La regla 1 para el success y la regla defualt para el fail, no hay que añadir una regla 2, hay que usar la default)

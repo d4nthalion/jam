@@ -1,0 +1,110 @@
+task1; Respuesta: dda
+
+task2:
+
+- Ir a lambda
+- Ir a la unica función que hay
+- Pegar el siguiente troncho:
+
+import os
+import json
+import boto3
+
+SSM = boto3.client('ssm')
+KMS = boto3.client("kms")
+SECRET = boto3.client('secretsmanager')
+API_GATEWAY = boto3.client('apigateway')
+
+SECRET_NAME = os.environ.get("SECRET_NAME")
+KMS_PARAM = os.environ.get("KMS_PARAM")
+api_name = os.environ.get("API_NAME")
+stage_name = os.environ.get("STAGE_NAME")
+region = os.environ.get("AWS_REGION", "us-east-1")
+
+def get_invoke_url(api_name, stage_name):
+    """Get API Gateway invoke URL"""
+    apis = API_GATEWAY.get_rest_apis()
+    api_id = None
+    for api in apis["items"]:
+        if api["name"] == api_name:
+            api_id = api["id"]
+            break
+    if not api_id:
+        raise ValueError(f"API {api_name} not found")
+
+    stages = API_GATEWAY.get_stages(restApiId=api_id)
+    stage_id = None
+    for stage in stages["item"]:
+        if stage["stageName"] == stage_name:
+            stage_id = stage["stageName"]
+            break
+    if not stage_id:
+        raise ValueError(f"Stage {stage_name} not found")
+
+    return f"https://{api_id}.execute-api.{region}.amazonaws.com/{stage_id}"
+
+def handler(event, context):
+    """Jam Challenge Lambda Handler"""
+    key_parameter = SSM.get_parameter(
+        Name=KMS_PARAM,
+        WithDecryption=True
+    )
+    key_id = key_parameter["Parameter"]["Value"]
+
+    get_secret = SECRET.get_secret_value(SecretId=SECRET_NAME)
+    secret_value = json.loads(get_secret['SecretString'])
+    secret_text = secret_value.get("password", "")
+
+    encrypted_data = KMS.encrypt(
+        KeyId=key_id,
+        Plaintext=secret_text.encode()
+    )["CiphertextBlob"]
+
+    decrypted_value = KMS.decrypt(
+        CiphertextBlob=encrypted_data
+    )["Plaintext"]
+
+    html = f"""
+    <html>
+        <head>
+            <style>
+                body {{
+                    background-color: #f2f2f2;
+                }}
+                h1 {{
+                    color: #007bff;
+                    font-size: 2rem;
+                }}
+                p {{
+                    color: #6c757d;
+                    font-size: 1.5rem;
+                }}
+            </style>
+        </head>
+        <body>
+            <center><h1>Welcome to JAM Challenge</h1></center>
+            <center><p>Thank you for your support!</p></center>
+            <center><p>Here is your secret: {decrypted_value.decode()}</p></center>
+        </body>
+    </html>
+    """
+
+    try:
+        invoke_url = get_invoke_url(api_name, stage_name)
+        print(f"API Gateway invoke URL: {invoke_url}")
+    except ValueError as e:
+        print(f"Error retrieving API Gateway URL: {e}")
+
+    return {
+        "statusCode": 200,
+        "headers": {
+            "Content-Type": "text/html"
+        },
+        "body": html
+    }
+
+- Darle a test y copiar el API Gateway invoke URL.
+
+- VIsitar la URL anterior y pegar el código que te dan en el reto.
+
+task3: Respuesta: "CWE-19 - Missing pagination or Import "boto3" could not be resolved"

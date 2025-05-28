@@ -1,0 +1,56 @@
+Move this DB to Managed
+
+Task 1:
+
+- Ir a RDS
+- Ir a Options Groups (está en el panel izquierdo abajo)
+- Crear un nuevo option group 
+- Poner "engine: sqlserver se" y "major engine version: 15.00"
+- La opción instalada debe ser "SQLSERVER_UPDATE_RESTORE" y el IAM ROLE el que en alguna parte de la cadena ponga "sqlbackupresotreiamrole"
+- Una vez hecho esto ir a la unica instancia que existe en RDS y darle modify.
+- En algún punto (no me acuerdo donde) habrá un desplegable para agregarle un "option group".
+- Elegir el que se ha creado (si no sale en el desplegable es porque no se ha creado con al configuración adecuada)
+
+Task 2 (Respuesta rápida: 504)
+
+Si la respuesta rápida no funciona hacer lo siguiente.
+
+- Ir a secrets manager y recuperar las credenciales de la BBDD
+- Ir al Fleet Manager de Systems Manager y conectar a la EC2 por Remote Desktop (las credenciales son las del anterior paso)
+- Abrir SQL Server Managment Studio y logear a la BBDD (usa las misma credenciales que antes). En name hay que poner el endpoint de la RDS. SI da problemas de conexión abajo en el certificado poner "Optional" y marcar casilla de "Trust certificate"
+- Pegar lo siguiente y ejecutar (sustituyendo por los valores adecuados):
+
+exec msdb.dbo.rds_restore_database
+@restore_db_name='sample_db',
+@s3_arn_to_restore_from=[nombredels3];
+
+- Ejecutar lo siguiente para ver como va el progreso de lo anterior:
+
+exec msdb.dbo.rds_task_status
+[@db_name='sampledb'];
+
+- Hacer la siguiente consulta:
+
+use sampledb
+
+SELECT COUNT(*)
+FROM sampledb.Products;
+
+- Pegar el resultado como respuesta en el challenge
+
+Task 3:
+
+- Ir a la instancia en RDS
+- Entrar y darle "Modify"
+- Ir a la sección de backups (está abajo de todas)
+- Elegir que los backups se retendran durante 7 dias
+- Elegir que la hora de inicio es a las 23:00 y que durará 2 horas 
+- Un poco más abajo se podrá elegir también lo mismo pero para "minor versions". Marca la casilla de que se haga automaticamente y luego elegir que solo se aplique los domingos (sunday) a la 01:00 y dure 5 horas.
+- Guardar cambios
+
+Task 4:
+
+- Ir al serivcio RDS y elegir la "Event subscriptions" (abajo del todo en el panel de la izquieda)
+- Crear una nueva suscripción
+- Elegir como "target" el unico del desplegable"
+- Elegir de source la unica instancia RDS y añadir una categoria llamada "maintenance"

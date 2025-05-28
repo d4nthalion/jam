@@ -1,0 +1,86 @@
+TASK 1: Respuesta: Egress
+
+Task 2: Crear una VPC con el "Wizard" (opción "VPC and more") en una sola zona de disponibilidad, dejar todo lo demás default. 
+
+Task 3: 
+
+- Create a Transit Gateway
+
+1. In the VPC Console select Transit Gateway from the left-hand menu
+2. Select Create transit gateway
+3. Give your transit gateway a name like egress-tgw, and a description
+4. Ignore the ASN and deselect VPN ECMP support
+5. Select Create transit gateway
+
+- Create Transit Gateway Attachment for VPC A
+
+1. Navigate to Transit gateway attachments on the left-hand menu
+2. Select Create transit gateway attachment
+3. Give this attachment a name like vpc-a-tgw
+4. Select the transit gateway you just created from the Transit gateway ID dropdown
+5. Leave attachment type set to VPC
+6. Select the vpc that starts with a-vpc in its name in the brackets
+7. Under Subnet IDs ensure that the a-private-subnet is selected from the subnet dropdown
+8. Select Create transit gateway attachment
+
+Repeat the same steps to create Transit Gateway Attachments in VPC B and your egress VPC. All attachments should be created in the private subnet.
+
+- Adjust private Route Tables in the two service VPCs
+
+1. Navigate to Route tables in the left-hand menu
+2. Tick the box for route table a-private-route-table
+3. Select the Routes tab in the middle of the screen
+4. Select Edit routes
+5. Press the X next to Target NAT Gateway in the 0.0.0.0/0 route to deselect it
+6. Select Transit Gateway from the drop down list and select the attachment (vpc-a-tgw)
+7. Select Save changes
+
+Repeat these steps for route table b-private-route-table.
+
+- Add a route for return internet traffic to the service VPCs
+
+1. Tick the box next to the egress VPC public route table. Depending on what you called your VPC this will be called egress-rtb-public.
+2. Select the Routes tab
+3. Select Edit routes
+
+If your egress VPC CIDR is 192.168.0.0/0 then
+
+1. Select Add route
+2. Enter 10.0.0.0/8 as the destination
+3. Select Transit Gateway from the Target drop down and select the attachement to the Transit Gateway
+4. Select Save Changes
+
+If your egress VPC CIDR is another 10.?.?.?/16 then add routes for each service VPC. This is not ideal since this route table will need to be changed when adding more VPCs:
+
+1. Select Add route
+2. Enter 10.1.0.0/16 as the destination
+3. Select Transit Gateway from the Target drop down and select the attachement to the Transit Gateway
+4. Select Add route
+5. Enter 10.2.0.0/16 as the destination
+6. Select Transit Gateway from the Target drop down and select the attachement to the Transit Gateway
+7. Select Save Changes
+
+- Add static route to egress VPC for internet traffic
+
+1. Navigate to Transit gateway route tables in the left-hand menu
+2. Tick the box next to the route table already created for the Transit Gateway
+3. Select Routes
+4. Select Create static route
+5. Enter 0.0.0.0/0 as the CIDR
+6. Select the egress attachment from the dropdown
+7. Select Create static route
+
+- Validate your network
+
+Copy the Transit gateway ID from the route table screen, or navigate back to Transit gateways and copy it from there
+The id should start with tgw-
+Paste into the challenge validation and press Submit Answer
+
+Task 4:
+
+Borrar lo siguiente:
+
+- NAT Gateways de las VPCs A y B
+- Internet Gateways de las VPCs A y B
+- Route Tables publicas de las VPCs A y B
+- Subredes públicas de las VPCs A y B

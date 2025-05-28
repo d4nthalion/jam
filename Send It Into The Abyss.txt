@@ -1,0 +1,19 @@
+Task 1:
+
+Ir al servicio de VPC,
+Ir a Transti Gateways,
+Copiar/pegar el ID del unico que hay como respuesta de la task 1,
+
+Task 2:
+
+Ir a los Transit Gateway attachments,
+Copiar/pegar el ID del que se llama vpc3-att (si no cuela probar con los otros),
+
+Task 3:
+
+Ir a los NAT Gateways y copiar/pegar como repsuesta el ID del unico que hay,
+
+Task 4:
+
+Mira la imagen
+https://media.discordapp.net/attachments/1365258841620484127/1372903381882109952/Task_4.png?ex=68384969&is=6836f7e9&hm=af8df61a566657121723aaaed53a7b5bcbc137a8f62143a565950377409c9fd4&=&format=webp&quality=lossless

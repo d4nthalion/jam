@@ -1,0 +1,76 @@
+3 tiers of pain!!
+
+Task 1:
+
+The ALB has no Listener. You need to create a Listener to complete this task.
+
+1. Navigate to or search EC2 -> Load Balancers in the AWS console
+2. Select the Application Load Balancer that has been provisioned
+3. In the lower information section
+3.1. Optionally, select the Resource map tab to see no listeners and rules are configured
+3.2. Select the Listeners and rules tab
+4. You’ll notice there are no listeners
+5. Click Add Listener
+
+Select and follow the below to configure the Listener:
+
+- Protocol: HTTP
+- Port: 80
+- Default actions: Forward to target groups
+- Select the Target Group in the dropdown menu
+- Leave everything else as default
+- Click Add
+
+Now that a listener has been added, select the Resource map tab to see the path to the target group.
+
+Task 2:
+
+The App tier Subnets and Route Tables are not associated. As a result, the App tier subnets do not know where to route any traffic with a destination outside of the VPC.
+
+Associate the App tier Route Tables for AZ1 and AZ2 to their respective App Subnets.
+
+- Navigate to VPC -> Route Tables
+- Select AppAZ1PrivRTB
+- Go to the Subnet associations tab
+- Click Edit subnet associations on the right-hand side
+- Select AppAZ1PrivSubnet
+- Click Save associations
+- Repeat the same steps for the AZ2 Route Table and Subnet association.
+
+Task 3:
+
+The incorrect Security Group is assigned to the RDS instance.
+
+You need to remove ASG-WebServer-SG and add DB-SG to enable the correct connectivity between the WordPress app and the RDS database.
+
+- Navigate to RDS -> Databases.
+- Select the bullet next to the database named WP-Database in the Databases list and then click Modify.
+- Scroll to the Connectivity section.
+- Be sure to remove the security group that starts with ASG-WebServer-SG.
+- Add the security group named DatabaseSecurityGroupß from the dropdown list.
+- Scroll to the bottom and click Continue.
+- IMPORTANT: Be sure to select the option "Apply immediately". If you do not select this option, the challenge will not complete the change will be applied during the next scheduled maintenance window and you will need to repeat this modification.
+- Finish by clicking Modify DB Instance.
+- This may take a few minutes to apply.
+
+Task 4: 
+
+Refresh the instances running in the Auto Scaling Group
+
+- Navigate to EC2 -> Auto Scaling Groups
+- Select the auto scaling group that starts with Web-ASG
+- Select the Instance refresh tab
+- Click Start instance refresh
+- Leave the availability set to Terminate and launch
+- Deselect Enable skip matching
+- Click Start instance refresh
+
+Increase the number of desired instances in the Auto Scaling Group:
+
+- Navigate to EC2 -> Auto Scaling Groups
+- Select the auto scaling group that starts with Web-ASG
+- Select the Details tab and choose for the Group details select Edit
+- Update the Desired capacity to 2
+- Click Update
+
+Wait until both hosts are listed as "Healthy".

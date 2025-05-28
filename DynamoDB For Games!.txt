@@ -1,0 +1,15 @@
+Task 1:
+
+Crear en DynamoDB una tabla con lo siguiente:,
+Nombre de la tabla: guild_data,
+Partition key: id,
+Sort key: gname,
+
+Task 2:
+
+Crear en DynamoDB una tabla con lo siguiente:,
+Table name: character_data,
+Partition key: id,
+Sort key: username,
+No autoscaling,
+Añadir las unidades de lectura/escritura necesarias (6 y 6 en ambos casos) IMPORTANTE, ESTE PASO SE BUGUEA, HAY QUE EDITAR LA TABLA NADA MÁS CREARLA Y PONERLO A MANOPLA.

@@ -1,0 +1,46 @@
+Task 1: 
+
+Bajarse el source.zip que te dan,
+cambiar el contenidos del archivo "Appspec_FIXME" a:,
+
+version: 0.0
+os: linux
+files:
+  
+source: /
+  destination: /opt/codedeploy/,
+hooks:
+  ApplicationStop:
+      
+location: deploy/applicationstop.sh
+      timeout: 60
+      runas: root
+BeforeInstall:
+location: deploy/before.sh
+    timeout: 300
+    runas: root,
+ApplicationStart:
+location: deploy/applicationstart.sh
+    timeout: 90
+    runas: root,
+,
+
+
+zipear de nuevo todo y subirlo al bucket que te dicen (asegurarse de que el appspec se llame "appspec.yaml" y que disposición de direcotrios sea la original),
+
+Task 2:
+
+Create a CodeDeploy Application called "jam-app" that runs on EC2 and CodeDeploy Deployment Group (called jam).,
+
+The CodeDeploy Deployment Group must be:,
+
+set up "in-place" and "one-at-a-time" deployment.,
+if deployment fails, it should rollback.,
+You will not require any load balancer for this deployment,
+
+Task 3:
+
+Desde el Deployment Group creado elige la opción "Create Deployment".,
+Elige como origen el source del bucket de la task 1 (indica su URI),
+Elige también que quieres que se sobreescriba el contenido ("Overwrite the content"),
+Ahora habrá que esperar a que se despliegue correctamente todo para que el challenge pueda validar

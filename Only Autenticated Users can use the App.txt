@@ -1,0 +1,20 @@
+Task 1:
+Ir al servicio Cognito > User pool.,
+Crear un user pool con cualquier nombre, como SPA (Single page aplication).,
+Usa email como Options for sign-in identifiers.,
+Como Required attributes for sign-up usa email también.,
+Como URL usa la WebApplicationURL de las Output Properties.,
+
+Ahora, dentro de tu User pool, ve a "Groups" y crea un group con cualquier nombre que use el rol CognitoGroupRoleName de las Output Properties.,
+Copia el ID del user pool y pégalo en el input de la tarea de la JAM
+
+Task 2:
+Ir a Cognito > Identity pools y entrar en la que ya está creada.,
+Entrar en User acces y "Add identity provider".,
+Seleccionar Amazon Cognito user pool, y elegir la Pool que se ha creado antes.
+
+Task 3:
+Me da pereza redactar tanto. Editar el archivo que toca .js con los datos.,
+Ir a la página con un usuario que crees. Añadir el usuario al grupo creado en Cognito.,
+Iniciar sesión y subir una archivo.,
+Como respuesta, el código que te da al subir el archivo,

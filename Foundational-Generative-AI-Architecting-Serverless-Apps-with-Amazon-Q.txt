@@ -1,0 +1,98 @@
+task1
+Q-1:
+Penalty 4 points
+Hide Clue
+The documentation states that Amazon Q "answers natural language questions in English about AWS, including questions about AWS service selection, AWS Command Line Interface (AWS CLI) usage, documentation, best practices, and your AWS resources." It also mentions that Amazon Q "responds with information summaries or step-by-step instructions, and includes links to its information sources."
+
+So the answer is d) All of the above.
+
+Q-2:
+Penalty 5 points
+Hide Clue
+The documentation lists several key features of Amazon Q Developer, including "knowledge of your AWS account resources and billing information", "the ability to generate code, tests, and API integrations from natural language prompts", and "integration with AWS CodeCatalyst to help build application features."
+
+So the answer is d) All of the above.
+
+Q-3:
+Penalty 6 points
+Hide Clue
+The documentation states that "Amazon Q uses multiple FMs (foundation models) to complete its tasks and uses logic to route tasks to the FM that is the best fit for the job." It also mentions that "Amazon Q is built on Amazon Bedrock, a fully managed service for building generative AI applications that offers a choice of high-performing foundation models (FMs) from Amazon and leading AI companies."
+
+So the answer is a) It routes tasks to the foundation model that is the best fit for the job
+
+task2:
+Activating Amazon Q
+Penalty 4 points
+Hide Clue
+Activate Amazon Q in your IDE using following steps:
+
+Open the IDE and go to Extensions in the left panel. Search for Amazon Q in the search bar and install it.
+Once it is installed, you will see Amazon Q at the bottom of the screen. Click on the Amazon Q at the bottom of the page to find the options available for Amazon Q. Ensure that Auto-Suggestions says Currently RUNNING.
+Now you can get inline suggestions by pressing Option+C if you are using mac and Alt+C for Windows
+Generate Code Recommendation
+Penalty 5 points
+Hide Clue
+After activating Amazon Q, generate code recommendation by writing a comment like the one below before the handler, after line 14: # definition to return invoke url from API Gateway using API name and stage name. Call this definition in the handler by writing a comment like # Get and print the API Gateway invoke URL
+
+Complete walkthrough
+Penalty 6 points
+Hide Clue
+Complete walkthrough steps:
+
+Open the IDE and go to Extentions in the left panel. Now search for Amazon Q in the search bar and install it.
+Once it is installed, you will see Amazon Q at the bottom of the screen. Click on the Amazon Q in the bottom of the page to find the options available for Amazon Q. Make sure Auto-Suggestions says Currently RUNNING.
+Now you can get inline suggestions by pressing Option+C if you are using mac and Alt+C for Windows
+After activating Amazon Q, copy the code from lambda function aws-jam-challenge-lambda to the IDE and save the file.
+Generate code recommendation to get the API Gateway invoke url by writing a comment like # definition to return invoke url from API Gateway using API name and stage name.
+To get API Gateway invoke URL, your final Lambda function code should have a block like below:
+# definition to return invoke url from API Gateway using API name and stage name
+
+def get_invoke_url(api_name, stage_name):
+    """Get API Gateway invoke URL"""
+    apis = API_GATEWAY.get_rest_apis()
+    api_id = None
+    for api in apis["items"]:
+        if api["name"] == api_name:
+            api_id = api["id"]
+        	break
+	if not api_id:
+    	raise ValueError(f"API {api_name} not found")
+	stages = API_GATEWAY.get_stages(restApiId=api_id)
+	stage_id = None
+	for stage in stages["item"]:
+    	if stage["stageName"] == stage_name:
+        	stage_id = stage["stageName"]
+        	break
+	if not stage_id:
+    	raise ValueError(f"Stage {stage_name} not found")
+	return f"https://{api_id}.execute-api.{os.environ.get('AWS_REGION')}.amazonaws.com/{stage_id}"
+7. Now call the above definition get_invoke_url in the handler like below
+
+# Get and print the API Gateway invoke URL
+
+invoke_url = get_invoke_url(api_name, stage_name)
+print(f"API Gateway invoke URL: {invoke_url}")
+8. Find the complete code here 9. Copy the code and paste it to the Lambda console in index.py file and click on Deploy. 10. Now test the function by clicking on the Test and in the Configure test event page enter a name for the event and click on Invoke. You should see API Gateway invoke URL in the Funciton Logs section. 11. Copy the invoke URL and open it in a browser. You will see text like following displayed: Here is your secret: XYZABCDEFZ. Copy this secret value and paste in the task2 for validation and hit Submit.
+
+task3:
+Connect Amazon Q with VS code for security scan
+Penalty 6 points
+Hide Clue
+Install and sign in to the Amazon Q extension in VS code if not already connected in task 2.
+Run a security scan on the code from task 2 using Amazon Q security scan feature.
+Identify the Module
+Penalty 7 points
+Hide Clue
+Find the vulnerability in the PROBLEMS tab in the IDE.
+Identify and submit the name of the vulnerability which is CWE-19 - Missing pagination
+Solution walkthrough
+Penalty 9 points
+Hide Clue
+In the IDE, find the Amazon Q option on the bottom of the screen.
+If you don't find the option, check if the Amazon Q is installed and enabled.
+Now click on the Amazon Q option and you will see options pop up on the screen.
+Click on Run Project Scan option to scan the code for security vulnerabilities.
+Find the report in the PROBLEMS tab and see the vulnerabilities or warnings.
+You should see CWE-19 - Missing pagination or Import "boto3" could not be resolved in the PROBLEMS tab.
+Right click on it and Copy Message. Paste the message in Submit your answer section of the task in AWS JAM console.
+Click Submit, and you are done!!

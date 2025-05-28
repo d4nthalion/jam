@@ -1,0 +1,48 @@
+DevOps Architects - Come and design your CICD pipelines using fully managed DevOps tools!
+
+Task 1: 
+
+- Login to the AWS Console.
+- In the search bar, search for CodeArtifact.
+- In the left menu, navigate to Artifacts > Repositories.
+- Click on the abc-code-artifact-repo link.
+- Click on the Edit button on the right side of the screen.
+- Click on Associate Upstream Repository.
+- Select upstream-to-pypi-store.
+- Click on the Update repository button.
+- In the left menu, navigate to Pipeline > Pipelines.
+- Click on the abc-helloworld-codepipeline link.
+- Click on the Retry stage button within the Build section.
+- It will still fail, but the logs will point to a new reason and you will receive points for this task.
+
+Task 2:
+
+Update the CodeArtifact to Authorize your Build to publish the Artifacts:
+
+1. Login to the AWS Console.
+2. In the search bar, search for CodeArtifact.
+3. In the left menu, navigate to Artifacts > Repositories.
+4. Click on the abc-codeartifact-repo link.
+5. Click on the Edit repository policy button on the right side of the screen.
+6. Add codeartifact:PublishPackageVersion and codeartifact:PutPackageMetadata to the list of actions. The list of action should be similar to:
+
+"codeartifact:DescribePackageVersion",
+"codeartifact:DescribeRepository",
+"codeartifact:GetPackageVersionReadme",
+"codeartifact:GetRepositoryEndpoint",
+"codeartifact:ListPackageVersionAssets",
+"codeartifact:ListPackageVersionDependencies",
+"codeartifact:ListPackageVersions",
+"codeartifact:ListPackages",
+"codeartifact:ReadFromRepository",
+"codeartifact:PublishPackageVersion",
+"codeartifact:PutPackageMetadata"
+
+1. Click on the Save button to update the policy.
+2. In the left menu, navigate to Pipeline > Pipelines.
+3. Click on the abc-helloworld-codepipeline link.
+4. Click on the Retry stage button within the Build section.
+5. Once the build succeeds. In the left menu, navigate to Pipeline > Pipelines.
+6. Click on the abc-app-codepipeline link.
+7. Click on the Retry stage button within the Build section.
+8. Once the entire pipeline succeeds, the task will be marked as complete.

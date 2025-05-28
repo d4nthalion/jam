@@ -1,0 +1,11 @@
+Task 1:
+Respuesta rápida:
+
+TITAN-TEXT-G1-Premier+NO+NO 
+Task 2:
+
+Entrar a los modelos y solicitar acceso del Titan Text G1 - Premier 
+Task 3:
+Respuesta rápida:
+
+calculate_bmi+2+Kg+m 

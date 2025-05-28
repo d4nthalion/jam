@@ -1,0 +1,38 @@
+Task 1:  Hacer test a la función Lambda
+
+Task 2: Activar X-Ray en la pestaña "Configuration" de la función.
+
+Task 3: Añadir la libreria "Lambda Powertools" como una Layer a la función Lambda. Modificar función a lo siguiente:
+
+from aws_lambda_powertools import Tracer
+from aws_lambda_powertools.utilities.typing import LambdaContext
+
+
+tracer = Tracer(service="jam")
+
+import os
+import boto3
+from boto3.dynamodb.types import TypeDeserializer
+
+from aws_lambda_powertools import Tracer
+from aws_lambda_powertools.utilities.typing import LambdaContext
+
+tracer = Tracer(service="jam")
+
+table_name = os.environ["TABLE_NAME"]
+client = boto3.client("dynamodb")
+
+@tracer.capture_method
+def get_user(id):
+    response = client.get_item(TableName=table_name, Key={"id": {"S": id}})
+    return response["Item"]
+
+def deserialise(item):
+    d = TypeDeserializer()
+    return {k: d.deserialize(v) for k, v in item.items()}
+
+@tracer.capture_lambda_handler
+def handler(event, context: LambdaContext):
+    item = get_user("jammer")
+    user = deserialise(item)
+    return user

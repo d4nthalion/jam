@@ -1,0 +1,19 @@
+Task 1:
+
+Ir al servicio WAF,
+Crear una ACL con el recurso asociado ALB (task1) (Si se queda creando el ACL infinito ir a la lista de ACLs yy verás que sales igual, solo hay que editarlo para asociarle el recurso again),
+Añadir la managed rule llamada "SQL Database",
+Guardar tod y espera a que valide,
+
+Task 2:
+
+Ir al serivcio Cloudfront,
+Ir a la unica distribución que saldrá,
+Ir a la pestaña "Behaviour",
+Bajar a la sección de "Cache Key and origin requests",
+Cambiar la "Cache policy" y el "Origin request policy" a los "Recommended for Elastic Load Balancing" que salgan en el desplegable,
+ESpera que valide,
+
+Task 3:
+
+Hacer lo de la task 1 pero poniendo como "Associated Resource" la distribución de CloudFront y como Managed Rule la que se llama "PHP Applicaltion".

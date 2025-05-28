@@ -1,0 +1,19 @@
+TASK 1:
+Subnet Pattern
+Penalty 1 points
+Hide Clue
+Within our VPCs we already have public and private subnets, for public and private resources. Private resources may require the ability to connect to services on the internet via a NAT Gateway.
+
+In this example with an organisation going beyond a few VPCs can we apply a similar pattern to subnets, but instead have public and private VPCs rather than all VPCs with their own internet access.
+
+In Transit
+Penalty 1 points
+Hide Clue
+A Transit Gateway can be used to route traffic from multiple VPCs to one or more target VPCs. Think of the Transit Gateway as the hub and the attachments and routes to the VPCs as spokes.
+
+A public VPC, which could be the common path for internet traffic from a transit gateway, may have internet access and NAT gateways for multiple private VPCs that do not have an Internet Gateway.
+
+Blog
+Penalty 2 points
+Hide Clue
+Please read about the Egress VPC pattern in this blog https://aws.amazon.com/es/blogs/networking-and-content-delivery/building-an-egress-vpc-with-aws-transit-gateway-and-the-aws-cdk/.

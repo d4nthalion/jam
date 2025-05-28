@@ -1,0 +1,30 @@
+Task 1:  I am your origin app you must protect!
+
+Task 2: Remove the current rule that allow traffic from internet, the one with CIDR 0.0.0.0/0, from Security Group called Jam
+Add a new rule into Security Group called Jam that allow only HTTP traffic from CloudFront Origin prefix list.
+
+Task 3: 
+
+Ir a la distribución "Application user" > Origins,
+Seleccionar el únic que hay y darle a "Edit",
+Añadir un custom header con lo siguiente:,
+Header name: x-from-cf,
+Header value: MySuperSecret,
+
+Task 4:
+
+Ir a los load balancer (ALB) del serivcio EC2,
+Change the rule configuration for priority default as:,
+
+Response code: 403
+Content-Type: text/plain
+Response body: Access denied
+
+Change the rule configuration for priority 1 as:,
+
+Header name: x-from-cf
+Header value: MySuperSecret
+
+Asegurarse de guardar los cambios,
+
+Task 5: Abrir el enlace del "Output Properties" llamado "maliciousnosequeURL" y copiar la respuesta

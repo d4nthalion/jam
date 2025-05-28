@@ -1,0 +1,60 @@
+Task 1:
+
+Ir al rol de IAM "lambda-role-execution,
+Modificar la única policy que tiene con lo siguiente:,
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Condition": {
+                "StringEqualsIfExists": {
+                    "dynamodb:Select": "SPECIFIC_ATTRIBUTES"
+                }
+            },
+            "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:Query"
+            ],
+            "Resource": [
+                "arn:aws:dynamodb:us-east-1:072675826569:table/OrderTable"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}
+
+Task 2:
+
+Ir a DynamoDB,
+Meterse en la unica tabla,
+Darle "actions"  (arriba a la drecha) y seleccionar "create item",
+Darle para que salga en formato JSON y pegar lo siguiente:,
+
+{
+  "CustomerID": {
+    "S": "Customer1"
+  },
+  "OrderID": {
+    "N": "1"
+  },
+  "CommonAttribute_OrderTotal": {
+    "N": "254"
+  },
+  "RestrictedAttribute_PII_Data": {
+    "S": "No 123, street 15, India"
+  }
+}
+
+Hacer lo mismo con el otro ITEM pero cambiando los campos por lo que ponga en el challenge,
+
+Task 3: 
+
+Volver a la politica de la Task 1,
+Modificar la condición sustituyendo SPECIFIC_ATTRIBUTE por "CustomerID = "Customer1"" (Copiar lo anterior con comillas y todo),
+
+Task 4:
+
+ME LA HA AUTOCOMPLETADO SOLA

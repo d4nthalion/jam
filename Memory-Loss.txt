@@ -1,0 +1,67 @@
+TASK 1:
+
+The CloudWatch agent must be installed and running in order to capture metrics such as memory and disk space used. You must also update the permissions for the EC2 instance profile that is attached to your EC2 instance to include permissions to use send data to CloudWatch. Since there is no private key configured for the EC2 instance, you must install the CloudWatch agent without having to ssh into the instance.
+
+Update permissions for the AWS EC2 Instance
+Note: If you update the permissions after installing the CloudWatch agent, you will need to stop and restart the AWS CloudWatch agent so that it can retrieve the updated credentials.
+
+Update the EC2 instance profile role with the additional AWS Systems Manager permissions required.
+a. Open the EC2 service menu and list your EC2 instances. The details for the instance identify the IAM role in use by the instance.
+b. Click on the instance profile name to open the MemoryLossJamChallenge role in the IAM service menu.
+c. Create an Inline policy to the role, and policy content need to follow the CloudWatchAgentServerPolicy AWS Managed Policy.
+d. Make sure EC2 security group outbound rule allow 443 to internet to connect to ssm endpoint. e. You may need to reboot EC2 instance to make sure AWS Systems Manager agent is running.
+The AWS Systems Manager agent is running on the instance so you can install the CloudWatch agent using AWS Systems Manager Distributor or using AWS Systems Manager Session Manager. Choose either flow below to complete the first step.
+
+AWS Systems Manager Distributor Cloudwatch Agent Installation Flow
+AWS Systems Manager Distributor includes an AWS managed package called AmazonCloudWatchAgent that enables you to install the latest version of the Amazon CloudWatch agent. AWS Systems Manager Distributor uses a run command with the AWS Systems Manager document, AWS-ConfigureAWSPackage, to install the CloudWatch agent.
+
+a. Open the AWS Systems Manager service menu and select Distributor from the service menu.
+b. Select the AmazonCloudWatchAgent package and choose Install one time.
+c. For targets, select Choose instances manually and then select your EC2 instance. Uncheck the Enable writing to an S3 bucket and choose Run.
+
+After installation of the agent, you can then use the AWS Systems Manager Run Command option in the Instances & Nodes sub-menu to execute the AmazonCloudWatch-ManageAgent document to configure the agent with a default CloudWatch configuration that includes the mem_used_percent metric and also restarts the CloudWatch agent.
+
+a. Open the AWS Systems Manager service menu and choose Documents from the menu.
+b. In the search bar, choose Document name prefix : Equals : AmazonCloudWatch and then choose the AmazonCloudWatch-ManageAgent document.
+c. Choose Run command with the following options:
+
+Action: configure
+Mode: ec2
+Optional Configuration Source: default
+Optional Restart: yes
+d. Select Choose instances manually and select the instance for the challenge. Uncheck the Enable writing to an S3 bucket and choose Run.
+
+The CloudWatch agent will now start with the default configuration.
+
+AWS Systems Manager Session Manager CloudWatch Agent Installation Flow
+AWS Systems Manager Session Manager can be used to login to the instance and manually install and configure the CloudWatch agent.
+
+Open the AWS Systems Manager service menu and choose Session Manager from the service menu.
+
+Choose Start Session and then select the EC2 instance for the challenge and choose Start session.
+
+Enter: sudo yum install amazon-cloudwatch-agent
+
+Enter: cd /opt/aws/amazon-cloudwatch-agent/bin
+
+Enter: sudo ./amazon-cloudwatch-agent-ctl -a start -m ec2 -c default -s
+
+The CloudWatch agent will now start with the default configuration.
+
+Confirm that the CloudWatch agent is capturing the mem_used_percent metric
+Proceed to the CloudWatch service in the AWS console and choose the Metrics feature. Within 5 minutes, you should see the CWAgent custom namespace appear.
+
+a. Click on the "CWAgent" namespace. Within this namespace you should see a dimension group called ImageId, InstanceId, InstanceType. Click on this dimension group to see the metrics within it.
+b. Confirm that the mem_used_percent metric is available. Check the metric to see the latest observations in a graph.
+
+Finished! Now the CloudWatch agent running on your EC2 instance is reporting the memory in use by your EC2 instance for your analysis and actions.
+
+TASK 2:
+
+- Ir a CloudWatch > Metrics
+- Seleccionar las metrics del CWAgent
+- Elegir la que solo tiene 1 metrica ("mem_used" o algo así)
+- Seleccionar y elegir la opcion de crear una alarma para la métrica
+- Poner que cuando el valor de la métrica sea superior al 75% que salte la alarma
+- Elegir en la configuración de la alarma que se cree un nuevo "topic" de SNS e indicar un correo electronico QUE PUEDAS VISITAR al que notificar que salta la alarma
+- Entrar en el correo y confirmar la suscripción al topic de SNS

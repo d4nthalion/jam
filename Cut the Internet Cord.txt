@@ -1,0 +1,21 @@
+Task 1:
+
+Ir a la función Lambda del reto,
+Consultar su rol de ejecución,
+Añadirle al rol la politica llamada "InternetCordJamManagedPolicy",
+
+Task 2:
+
+Ir a la función Lambda dle reto,
+Ir a la pestaña "Configuración",
+Ir a la sección VPC (panel de la izquierda),
+Añadir la VPC correcta, las dos subnets privada y el unico SG del reto,
+Ir al servicio de VPC,
+Ir a la sección "Endpoints",
+Crear un nuevo endpoint del tipo "Gateway" que apunte al servicio de DynamoDB, seleccionando la VPC correcta y sus subredes privadas.,
+
+Task 3:
+
+Ir al SG de la Lambda,
+Añadir una Outbound Rule que permita el trafico 443 al "prefix list" llamado DynamoDB,
+Borrar la regla que permita la salida de "All traffic"

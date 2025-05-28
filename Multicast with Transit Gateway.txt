@@ -1,0 +1,60 @@
+Task 1:
+
+Conectarse con sessión manager a las 3 instances EC2 del reto.,
+Lanzar en las 3 el mismo comando "onping" que te dan en las "Output properties",
+Esperar hasta que pasen cosas y darle ctrl+c,
+Copiar/Pegar como respuesta a la task una de las lineas en las que pone "multicast".,
+
+Task 2:
+
+Ir al servicio VPC,
+Ir a la sección de Transit Gateways (panel de la izquierda) y crear uno con la opción "Multicast Support" (Es una casilla que está abajo,),
+Ir a la seccción de Transit Gateway attachments (panel de la izquierda) y crear un attachment dentro de la VPC del reto, elegiendo el transit gateway creado en el anterior paso y las subnet correctas.,
+
+Task 3:
+
+Crear el Multicast Domain y asociarlo (En las fotos se ve),
+
+Task 4:
+
+Ir al servicio EC2 > Security groups,
+Modificar el que se llama "Jam" para que acepte (1) peticiones UDP desde la IP de la VPC y (2) una mierda rara (mirar foto de la task),
+
+Task 5:
+
+Go to EC2 console page and follow the steps below:
+
+Select Instances on left menu,
+Select the checkbox on the left side of Instance1 (make sure it is the only one selected),
+Select Connect,
+Select Session Manager,
+Select Connect,
+Repeat this process for Instance2 and Instance3.,
+
+Make sure you have 3 browser tabs open, one for each instance.
+
+Kernel Parameter
+
+Run both commands below to make sure eth0 can support IGMP v2. If cat command shows eth0 as V3, it is wrong!
+
+sudo sysctl -w,
+cat /proc/net/igmp,
+
+Do it on all 3 instances!
+
+
+Run omping at the same time on all 3 instances. Keep it running. It will take a time, be patience!
+
+See below and examples of omping execution. As you can see it take a time for multicast lines to show.
+
+You MUST see multicast lines from 2 other instances IP on each tab you run omping.
+
+@ip-10-0-0-30 ~]# omping -m 224.10.10.10 10.0.0.30 10.0.1.80 10.0.2.253
+
+https://media.discordapp.net/attachments/1365258841620484127/1374050545630711808/Task_4.webp?ex=6838814a&is=68372fca&hm=8b06dd727ecb5ec044f557297aa0ad088e4f9317b3c36815ed2211627ae49132&=&format=webp&width=808&height=202
+https://media.discordapp.net/attachments/1365258841620484127/1374050546373365812/Task_3_-_1.webp?ex=6838814a&is=68372fca&hm=38f5f1633a0465f47f19f51315001e27672348efb610b8e886856996fd8957d7&=&format=webp&width=808&height=402
+https://cdn.discordapp.com/attachments/1365258841620484127/1374050547031871629/Task_3_-_2.webp?ex=6838814b&is=68372fcb&hm=bf11024adaf7114ef2e3d2309e0d5c7639e3dc34660534fba03048a7cab7497b&
+https://cdn.discordapp.com/attachments/1365258841620484127/1374050547816202290/Task_2.webp?ex=6838814b&is=68372fcb&hm=2d81ca61d3b03ffbd6e41bb888819c2cdeb3151412277715c035ca8c7a38504e&
+
+
+

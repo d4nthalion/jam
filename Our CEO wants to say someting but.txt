@@ -1,0 +1,54 @@
+Task 1: 
+
+Ir al rol "JamCEOMessageIAMRole",
+Crear una inline policy con lo siguiente:,
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "s3:ListAllMyBuckets",
+            "Resource": "*"
+        }
+    ]
+}
+
+Task 2: 
+
+Ir al rol "JamCEOMessageIAMRole",
+En la sección summary copiar la url de un sitio donde pone "link to switch roles" o algo asi,
+Una vez en la nueva consola buscar el serivcio S3 y el bucket correcto (lo pone en Output properties),
+Una vez dentro ir a la pestaña "Permission" y dentro bajar a la sección "Bucket policy" y pegar lo siguiente (RELLANDO LOS CAMPOS CON TUS DATOS):,
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Statement1",
+            "Principal": { 
+                "AWS": "arn:aws:iam::YOUR-AWS-ACCOUNT-ID:role/YOUR-ROLE-NAME"
+            },
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::YOUR-S3-BUCKET/**",
+                "arn:aws:s3:::YOUR-S3-BUCKET"
+            ]
+        }
+    ]
+}
+
+Task 3 (Respuesta rápida: Every Day is Still Day One!)
+
+Si no funciona la respuesta rápida haz lo sigueinte
+
+Volver al usuario de la jam (se puede volviendo a abrir la consola desde el challenge),
+Modificar la politica llamada "DenyS3Object" o algo así,
+Cambiar la "action" a "allow".,
+Vuelve a ahacer lo de switch role,
+Ves al bucket y bajate el .txt de dentro, ahí debería estar la respuesta

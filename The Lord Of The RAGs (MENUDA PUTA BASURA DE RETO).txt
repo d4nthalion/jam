@@ -1,0 +1,33 @@
+Task 1: 
+
+Ir al servicio Amazon Bedrock,
+Ir a la sección "Model Access" (Abajo del todo del panel de la izquierda),
+Pedir acceso a los modelo que pone en el reto de la jam y darle "Next" (o save, no me acuerdo),
+Ir al serivcio Amaozn SageMaker AI,
+Ir a la subsección "Notebooks" de la sección "Applications and IDEs" del panel izquierdo,
+Ir al unico notebook que salga y seleccionarlo, arriba a la derecha marca "Abrir Jupyter" (o algo así),
+Elegir la mierda que se llama "lord of the rags",
+EN la opcion "Cell" de arriba darle a "Run All",
+Si no valida buscar la que pone "Your Turn TASK 1" y ejecutarla,
+
+Task 2
+
+Volver a Amazon Bedrock,
+Buscar en el pane lde la izquierda "Knowledge Base",
+Entra en la unica cosa que salga creada y copiar el Knowledge Base ID,
+Volver al jupyter y buscar en el partado "Your turn TASK 2" el sitio donde pegarlo,
+ejecutar la cell que verifica este challenge (esta abajo de donde pegas el id),
+
+Task 3:
+
+Sigue las instruccions del Jupyter a continuación de donde te quedastes. SI te pide que introduzcas una query pon esto "Tell me about Octank Financial's datacenters",
+
+Task 4:
+
+Seguir las instrucciones del Jupyter de nuevo, a conditunación de donde te quedastes.,
+Si te pide que completes la función translated_text() pon entre los parentesis los siguiente:,
+
+Text="Hello, World", 
+            SourceLanguageCode="en", TargetLanguageCode="es"
+
+Seguir instrucciones hasta que llegue a la de validar (ni suiqera me ha validad esta task pero es que estoy hasta la polla)

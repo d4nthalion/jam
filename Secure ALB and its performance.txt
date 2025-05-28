@@ -1,0 +1,28 @@
+Task 1:
+
+Ir al servicio WAF,
+Ir a la sección ACLs,
+Entrar en la unica que hay e ir a la pestañá de "Associated AWS Resources",
+Asociarle el ALB,
+
+Task 2:
+
+Metele al WAF una regla managed de AWS llamada "Core Rule Set",
+Metele otra unmanaged (creada por ti) llamada "RateBasedRule",
+La regla unmanaged en cuestión debe ser del tipo rate-based rule y tener una configuración como la de la foto que pongo junto a este mensaje (está abajo).,
+
+Task 3:
+
+Ir a la sección IP sets (del panel izquierdo),
+Crear un IP Sets llamado "SecurityAllowedIPs" con las siguientes direcciones 1.2.3.4/32 y 5.6.7.8/32,
+Ir a las reglas del WAF y meterle una regla unmanaged que:,
+
+se llame "SecurityAllowedIPsRule",
+que use el IP Set creado en el paso anterior.,
+La regla debe también asegurarse que el header proveniente se llame "X-Client-Ip",
+La "Action" sea "Allow",
+Tenga un "custom header" (Se mete en la sección oculta al final llamada "Custom request") que sea Key="Authorization" y Value="QWxsb3dlZElwcw==",
+
+Por ultimo  por estaregla como la más prioritaria (se puede inmediatamente despues de crearla) poniendola por encima de las demás
+
+https://cdn.discordapp.com/attachments/1365258841620484127/1372895802015350835/Task2.png?ex=6838425a&is=6836f0da&hm=74fe19b0da10e3a55f9da545d75c43ee3db753ccf2cc023ac0f5056b182473eb&

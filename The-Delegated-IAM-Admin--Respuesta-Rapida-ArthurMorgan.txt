@@ -1,0 +1,148 @@
+Below listed is a complete walkthrough of steps to create the IAM permission boundary, IAM policy and the IAM Role.
+
+Create IAM Permission Boundary policy
+Open the IAM console
+
+Click on Policies on the left hand pane and then click on create policy (SJ-Max) which represents the maximum permission boundary.
+
+Select the following services or you can copy and paste the policy provided below.
+
+Select Service - S3
+Actions – All S3 Actions
+Resources – All Resources
+Click Add Additional Permissions
+
+Select Service - System Manager
+Actions – PutParameter
+Resources – All Resources
+You can also copy and paste the policy below under the JSON tab.
+
+{
+ "Version":"2012-10-17",
+ "Statement":[
+    {
+       "Sid":"VisualEditor0",
+       "Effect":"Allow",
+       "Action":[
+          "ssm:PutParameter",
+          "s3:*"
+       ],
+       "Resource":"*"
+    }
+ ]
+}
+Steps to create the Permission Policy for IAM Delegated Admin with Permission Boundary:
+
+Open the IAM Console
+Click on Policies and click create policy SJ-Boundary
+Select the service IAM
+Select Actions
+"iam:DetachRolePolicy",
+"iam:DeleteRolePolicy",
+"iam:CreateRole",
+"iam:AttachRolePolicy",
+"iam:PutRolePolicy",
+"iam:CreatePolicy",
+"iam:GetRole",
+"iam:ListRoles",
+"iam:DeletePolicy",
+"iam:DeleteRole",
+"iam:GetRolePolicy"
+Click Resources and select All resources
+Expand on Requested Conditions
+Click on ADD CONDITION to add permission boundary
+Condition Key : iam:PermissionBoundary
+Qualifier : Default
+Operator: StringEquals
+Value: arn of your SJ-Max Policy arn:aws:iam::123456:policy/SJ-Max where 12345 should be replaced with your account number
+Click Add
+Click on Next:Tags
+Click Next:Review
+Provide the name of your Policy as – SJ-Boundary
+Click Create Policy
+You can also use following IAM policy under the JSON tab. Change the 12345 to your account number.This represents the arn of the permission boundary policy.
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Sid": "VisualEditor0",
+          "Effect": "Allow",
+          "Action": [
+              "iam:DetachRolePolicy",
+              "iam:DeleteRolePolicy",
+              "iam:CreateRole",
+              "iam:AttachRolePolicy",
+              "iam:PutRolePolicy"
+          ],
+          "Resource": "*",
+          "Condition": {
+              "StringEquals": {
+                  "iam:PermissionsBoundary": "arn:aws:iam::123456:policy/SJ-Max"
+              }
+          }
+      },
+      {
+          "Sid": "VisualEditor1",
+          "Effect": "Allow",
+          "Action": [
+              "iam:CreatePolicy",
+              "iam:GetRole",
+              "iam:ListRoles",
+              "iam:DeletePolicy",
+              "iam:DeleteRole",
+              "iam:GetRolePolicy"
+          ],
+          "Resource": "*"
+      }
+  ]
+}
+
+Steps to create Delegated Admin role and Trust Policy
+Open the IAM console
+Click on Roles on your left side and select Create role
+Select trusted entity type as AWS Account
+Click Next
+Under Add permissions page – Select the Permission Policy – SJ-Boundary
+Click Next
+Give the role name – SJ-DelegatedAdmin
+Click Create Role
+Steps to Modify Trust Policy for Answer Verification. You need to add one more account under role trusted policy.
+
+Click on Roles under IAM console
+Select the role SJ-DelegatedAdmin
+Select the Trust relationships tab
+Click on Edit trust policy
+Update the account number (681434714655) under the visual editor.You will see the your account number instead of the 12345 in the trust policy.
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Effect": "Allow",
+          "Principal": {
+              "AWS": [
+                  "arn:aws:iam::12345:root",
+                  "arn:aws:iam::681434714655:root"
+              ]
+          },
+          "Action": "sts:AssumeRole",
+          "Condition": {}
+      }
+  ]
+}
+
+Click Update Policy
+Steps to Switch Roles
+On the top Right hand side, expand the section under account number.
+Select switch role
+Provide the account number where you are logged in
+Under Role – put SJ-DelegatedAdmin
+Click Switch Role
+Test to create the roles to verify solution
+Steps to Validate the solution
+Run the following command. Replace 12345 with the AWS account number
+Mac or Linux machines :
+curl -d '{"account_id":"12345"}' -H "Content-Type: application/json" -X POST https://1b07hvp92b.execute-api.us-east-1.amazonaws.com/prod/validate
+Windows :
+curl -d "{\"account_id\":\"12345\"}" -H "Content-Type: application/json" -X POST https://1b07hvp92b.execute-api.us-east-1.amazonaws.com/prod/validate
+Copy the answer and update the JAM Challenge

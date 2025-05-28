@@ -1,0 +1,60 @@
+Task 1:
+
+Ir al rol de IAM "game-users-role",
+Modificar la politica a lo siguiente:,
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:PutItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:BatchWriteItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:Query"
+            ],
+            "Resource": "arn:aws:dynamodb:us-east-1:202121148801:table/GameScores",
+            "Effect": "Allow"
+        }
+    ]
+}
+
+Task 2:
+
+Volver a modificar  la misma politica pero ahora a esto:,
+
+{
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:GetItem",
+        "dynamodb:PutItem",
+        "dynamodb:Query",
+        "dynamodb:UpdateItem"
+      ],
+      "Resource": [
+        "arn:aws:dynamodb:us-east-1:202121148801:table/GameScores"
+      ],
+      "Condition": {
+        "ForAllValues:StringEquals": {
+          "dynamodb:LeadingKeys": [
+            "${www.amazon.com:user_id}"
+          ]
+        }
+      }
+    }
+  ]
+}
+
+Task 3:
+
+No la hice pero seguramente sea añadir una mierda de más. Es facil construir las politicas desde DynamoDb > Tables > [nombrequesea] > Actions > Create Access Control Policy (es la ultima opción)

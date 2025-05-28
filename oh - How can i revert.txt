@@ -1,0 +1,7 @@
+Task 1:
+
+Ir al servici llamado Service Catalog,
+Ir a Portfolios y entra en el que se llama "Maxi-Portfolio",
+En la pestaña "Access" añadir el rol que contiene "cloudformation" en el nombre,
+Volver al pipeline y darle a "Release Change",
+Esperar a que cree la instancia EC2 y copiar/pegar su IP pública en la respuesta

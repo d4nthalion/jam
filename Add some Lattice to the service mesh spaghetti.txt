@@ -1,0 +1,19 @@
+Task 1:
+
+Ir al servicio VPC,
+Crear un Target Group (Sección PrivateLink and Lattice del panel izquierdo),
+Llamarle "checkout-tg" y asociarle el ALB,
+Crear ahora un Lattice service,
+Llamarle "checkout-svc" y que tenga un custom domain llamado "checkout.retailstore.com",
+Ir al servicio creado en el paso anterior y en la pestaña "routing" añadir un nuevo listener al puerto 80 que use el "checkout-tg",
+
+Task 2:
+
+Ir a "Service Network" (panel izquiero del servicio de VPC),
+Crear uno nuevo que este asociado a los servicios existentes (orders.svc y checkout.svc) y a las VPCs ("ui" y "checkout" y sus respectivos SG (nose cual es cual)),
+
+Task 3:
+Ir al Lattice service creado anteriormente:
+Copiar el Domain name.
+Ir al servicio Route 53 > Hosted Zones > retailstore.com
+Crear un nuevo record de tipo CNAME con el value del Domain que has copiado, y guardar los cambios.
